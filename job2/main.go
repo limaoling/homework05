@@ -2,6 +2,27 @@ package main
 
 // Package main 提供了一个用于与名为 'Job2' 的智能合约进行交互的 CLI 工具。
 // 它支持读取合约的计数、通过交易修改计数，以及解析合约发出的事件。
+//
+// 执行命令示例:
+//
+//	# 读取计数器
+//	go run main.go -contract <JOB2_CONTRACT_ADDRESS> -mode getCount
+//	go run main.go -contract 0x5FbDB2315678afecb367f032d93F642f64180aa3 -mode getCount
+//
+//	# 发送交易: increment / decrement / reset
+//	go run main.go -contract <JOB2_CONTRACT_ADDRESS> -mode increment
+//	go run main.go -contract 0x5FbDB2315678afecb367f032d93F642f64180aa3 -mode increment
+//
+//	# 解析 CountChanged 事件
+//	go run main.go -contract <JOB2_CONTRACT_ADDRESS> -mode CountChanged -tx <TX_HASH>
+//	go run main.go -contract 0x5FbDB2315678afecb367f032d93F642f64180aa3 -mode CountChanged -tx 0x379f09bd200a526964e7f9773b2cf278bb3fa2974750425d423b9d7404c96ca8
+//
+// 可选环境变量:
+//
+//	ETH_RPC_URL=http://127.0.0.1:8545
+//	PRIVATE_KEY=<PRIVATE_KEY>
+//	CONTRACT_ADDRESS=<JOB2_CONTRACT_ADDRESS>
+//	TX_HASH=<TX_HASH>
 
 import (
 	"context"
@@ -29,12 +50,16 @@ func main() {
 	txHashHex := flag.String("tx", "", "交易哈希，用于解析 CountChanged（也可用 TX_HASH）")
 	flag.Parse()
 
+	if *contractHex == "" {
+		*contractHex = os.Getenv("CONTRACT_ADDRESS")
+	}
+	if *txHashHex == "" {
+		*txHashHex = os.Getenv("TX_HASH")
+	}
+
 	// 验证输入。
 	if *mode == "" {
 		log.Fatalf("操作类型不能为空")
-	}
-	if *contractHex == "" {
-		log.Fatalf("合约地址不能为空")
 	}
 
 	// 通过 RPC 连接以太坊节点。
