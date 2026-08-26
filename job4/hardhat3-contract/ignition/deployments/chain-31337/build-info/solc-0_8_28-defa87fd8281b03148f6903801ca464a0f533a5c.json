@@ -1,0 +1,49 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-defa87fd8281b03148f6903801ca464a0f533a5c",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.14.0"
+  },
+  "userSourceNameMap": {
+    "contracts/Job2.sol": "project/contracts/Job2.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Job2.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n///  使用jq生成abi文件: jq '.abi' artifacts/contracts/Job2.sol/Job2.json > hardhat3-Job2.abi.json\n/// @title 一个简单的计数器合约，用于演示基本状态更改和事件触发。\n/// @notice 此合约允许递增、递减和重置计数器。\ncontract Job2 {\n    uint256 private count;\n\n    /// @notice 当计数器值改变时触发。\n    /// @param newCount 计数器的新值。\n    /// @param caller 触发此更改的地址。\n    event CountChanged(uint256 newCount, address indexed caller);\n\n    /// @notice 返回当前计数器的值。\n    /// @return 当前计数器的值。\n    function getCount() public view returns (uint256) {\n        return count;\n    }\n\n    /// @notice 将计数器递增 1。\n    /// @dev 触发 CountChanged 事件。\n    function increment() public {\n        count += 1;\n        emit CountChanged(count, msg.sender);\n    }\n\n    /// @notice 将计数器递减 1。\n    /// @dev 如果计数器为 0 则回退。触发 CountChanged 事件。\n    function decrement() public {\n        require(count > 0, \"count is zero\");\n        count -= 1;\n        emit CountChanged(count, msg.sender);\n    }\n\n    /// @notice 将计数器重置为 0。\n    /// @dev 触发 CountChanged 事件。\n    function reset() public {\n        count = 0;\n        emit CountChanged(count, msg.sender);\n    }\n}\n"
+      }
+    }
+  }
+}

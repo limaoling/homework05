@@ -1,6 +1,6 @@
 package main
 
-// Job3 CLI 负责部署和调用 job3.sol 对应的计数器合约。
+// Job3 CLI 负责部署和调用 Job3.sol 对应的计数器合约。
 //
 // 设计要点:
 //   - main.go 不再手写 ABI 编码/解码，而是直接使用 go_job3/job3.go 生成的 Go 绑定。

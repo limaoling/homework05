@@ -12,6 +12,7 @@ package main
 //	# 发送交易: increment / decrement / reset
 //	go run main.go -contract <JOB2_CONTRACT_ADDRESS> -mode increment
 //	go run main.go -contract 0x5FbDB2315678afecb367f032d93F642f64180aa3 -mode increment
+
 //
 //	# 解析 CountChanged 事件
 //	go run main.go -contract <JOB2_CONTRACT_ADDRESS> -mode CountChanged -tx <TX_HASH>
@@ -79,7 +80,8 @@ func main() {
 	defer client.Close()
 
 	// 加载并解析合约 ABI。
-	abiBytes, err := os.ReadFile("./abi/job2.abi.json")
+	//abiBytes, err := os.ReadFile("./foundry-abi/foundry-job2.abi.json")
+	abiBytes, err := os.ReadFile("./hardhat3-abi/hardhat3-job2.abi.json")
 	if err != nil {
 		log.Fatalf("读取 ABI 失败: %v", err)
 	}
